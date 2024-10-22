@@ -1,5 +1,6 @@
 {
   "name": "elysia-fs-cache",
+  "description": "File system cache for elysia backend",
   "module": "index.ts",
   "type": "module",
   "author": {
@@ -21,11 +22,11 @@
     "release": "npm publish --access public"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "elysia": "^1.1.23"
+    "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "elysia": "^1.1.23"
   }
 }
 
