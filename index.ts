@@ -6,14 +6,16 @@ export interface CacheOptions {
   folderPath?: string;
 }
 
-export const cache =
-  async (app: Elysia) =>
-  ({ maxAge = 3600, folderPath = "/cache" }: CacheOptions) => {
-    return new Elysia({ name: "elysia-fs-cache" }).derive(({ query, path }) => {
+export const cache = ({
+  maxAge = 3600,
+  folderPath = "/cache",
+}: CacheOptions) => {
+  return async (app: Elysia) =>
+    new Elysia({ name: "elysia-fs-cache" }).derive(({ query, path }) => {
       let cacheKey = "",
         fileRef;
       const getFileRef = async (path: string) => {
-        const fileRef = fileRef ?? (await file(`${folderPath}/${path}`));
+        const fileRef = fileRef ?? (await file(`${folderPath}/${path}.json`));
         return fileRef;
       };
       const set = (data) => {
@@ -67,7 +69,7 @@ export const cache =
         },
       };
     });
-  };
+};
 
 function createCacheKey({
   query,
