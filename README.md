@@ -1,15 +1,23 @@
 # elysia-fs-cache
 
-To install dependencies:
+To install:
 
 ```bash
-bun install
+bun install elysia-fs-cache
 ```
 
-To run:
+Example:
 
-```bash
-bun run index.ts
+```ts
+import { Elysia } from "elysia";
+import { cache } from "elysia-fs-cache";
+
+export const app = new Elysia()
+  .use(cache({ maxAge: 1000, folderPath: "/cache" }))
+  .get("/", ({ cache }) => {
+    cache.set({ hello: "world" });
+    return cache.get();
+  });
 ```
 
-This project was created using `bun init` in bun v1.1.9. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+This project was created to scale request based local cache for my [elysia](https://elysiajs.com) backend @helium.
