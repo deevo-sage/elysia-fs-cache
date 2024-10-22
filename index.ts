@@ -18,10 +18,10 @@ export const cache = ({
         const fileRef = fileRef ?? (await file(`${folderPath}/${path}.json`));
         return fileRef;
       };
-      const set = (data) => {
+      const set = async (data) => {
         cacheKey = cacheKey || createCacheKey({ query, path });
         const obj = { data };
-        if (exists()) {
+        if (await exists()) {
           const { createdAt, updatedAt } = await get();
           obj.createdAt = createdAt;
           obj.updatedAt = Date.now();
