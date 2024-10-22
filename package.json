@@ -1,0 +1,31 @@
+{
+  "name": "elysia-fs-cache",
+  "module": "index.ts",
+  "type": "module",
+  "author": {
+    "name": "Sidharth",
+    "url": "https://github.com/deevo-sage",
+    "email": "sid@gethelium.co"
+  },
+  "exports": {
+    "bun": "./index.ts",
+    "import": "./index.ts"
+  },
+  "types": "./index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deevo-sage/elysia-fs-cache"
+  },
+  "license": "MIT",
+  "scripts": {
+    "release": "npm publish --access public"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "elysia": "^1.1.23"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
+
