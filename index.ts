@@ -4,6 +4,10 @@ import { BunFile, file, write } from "bun";
 export interface CacheOptions {
   maxAge?: number;
   folderPath?: string;
+  cacheKeyGenerator?: (options: {
+    query: Record<string, string>;
+    path: string;
+  }) => string;
 }
 
 function createCacheKey({
@@ -25,6 +29,7 @@ function createCacheKey({
 export const cache = ({
   maxAge = 3600,
   folderPath = "/cache",
+  cacheKeyGenerator = createCacheKey,
 }: CacheOptions) => {
   return async (app: Elysia) =>
     app.derive(({ query, path }) => {
@@ -36,7 +41,7 @@ export const cache = ({
           return fileRef;
         }
         async function set(data) {
-          cacheKey = cacheKey || createCacheKey({ query, path });
+          cacheKey = cacheKey || cacheKeyGenerator({ query, path });
           const obj = { data };
           if (await exists()) {
             const { createdAt, updatedAt } = await get();
@@ -58,7 +63,7 @@ export const cache = ({
               updatedAt: 0,
             };
           }
-          cacheKey = cacheKey || createCacheKey({ query, path });
+          cacheKey = cacheKey || cacheKeyGenerator({ query, path });
           fileRef = await getFileRef(cacheKey);
           return (await fileRef.json()) as {
             data: any;
@@ -67,7 +72,7 @@ export const cache = ({
           };
         }
         async function exists() {
-          cacheKey = cacheKey || createCacheKey({ query, path });
+          cacheKey = cacheKey || cacheKeyGenerator({ query, path });
           fileRef = await getFileRef(cacheKey);
           if (!(await fileRef.exists())) {
             return false;
@@ -97,4 +102,3 @@ export const cache = ({
       }
     });
 };
-
