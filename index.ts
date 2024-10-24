@@ -37,7 +37,7 @@ export const cache = ({
         let cacheKey = "",
           fileRef: BunFile;
         async function getFileRef(path: string) {
-          fileRef = fileRef ?? (await file(`${folderPath}/${path}.json`));
+          fileRef = fileRef ?? (await file(`./${folderPath}/${path}.json`));
           return fileRef;
         }
         async function set(data) {
@@ -51,9 +51,13 @@ export const cache = ({
             obj.createdAt = Date.now();
             obj.updatedAt = Date.now();
           }
-          await write(`./infos/${cacheKey}.json`, JSON.stringify({ data }), {
-            createPath: true,
-          });
+          await write(
+            `./${folderPath}/${cacheKey}.json`,
+            JSON.stringify({ data }),
+            {
+              createPath: true,
+            },
+          );
         }
         async function get() {
           if (!exists()) {
